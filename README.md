@@ -59,8 +59,6 @@ d.runserver()
 
 ## Simple messages
 
-## Basic usage
-
 ```python
 from daemon import Daemon
 from response import message
