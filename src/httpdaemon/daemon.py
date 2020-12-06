@@ -2,6 +2,7 @@ import socket
 import re
 
 from response import htmlresponse, filenotfound
+from request import HttpRequest
 
 def runserver(port=8000, host='127.0.0.1'):
 
@@ -17,12 +18,13 @@ def runserver(port=8000, host='127.0.0.1'):
             conn, addr = sock.accept()
             
             # Receive request and parse to determine path
-            request = conn.recv(1024).decode("utf-8")
-            requestline = re.match("GET .* HTTP/1.1", request).group(0)
-            path = re.search("\s.*\s", requestline).group(0)[1:-1]
+            request = HttpRequest(conn.recv(1024))
+
+            print(request.requestline)
+            print(request.params)
 
             # Show the path accessed by the request
-            print(path)
+            path = request.path
             
             # Send an HTTP response on the socket
             if path == "/":
