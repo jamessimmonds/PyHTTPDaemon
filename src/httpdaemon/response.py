@@ -27,3 +27,21 @@ def filenotfound(message):
     """
 
     return htmlresponse(htmlbody)
+
+def message(title, message):
+    """
+    Return an HTTP response with an HTML page with a title and a heading.
+    """
+
+    htmlbody = f"""
+    <html>
+    <head>
+    <title>{title}</title>
+    </head>
+    <body>
+    <h1>{title}</h1>
+    <p>{message}<p>
+    </body>
+    """
+
+    return htmlresponse(htmlbody)

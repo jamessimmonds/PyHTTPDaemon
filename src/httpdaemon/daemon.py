@@ -1,7 +1,7 @@
 import socket
 import re
 
-from response import htmlresponse, filenotfound
+from response import htmlresponse, filenotfound, message
 from request import HttpRequest
 
 def runserver(port=8000, host='127.0.0.1'):
@@ -28,8 +28,7 @@ def runserver(port=8000, host='127.0.0.1'):
             
             # Send an HTTP response on the socket
             if path == "/":
-                htmlbody = f"<h1>Page accessed</h1><p>The path is {path}"
-                conn.sendall(htmlresponse(htmlbody))
+                conn.sendall(message("Index", "You have accessed the index."))
             else:
                 errormessage = f"You have accessed the following path: {path}"
                 conn.sendall(filenotfound(errormessage))
