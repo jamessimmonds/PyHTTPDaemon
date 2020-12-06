@@ -45,3 +45,13 @@ def message(title, message):
     """
 
     return htmlresponse(htmlbody)
+
+def cssresponse(responsebody):
+    """
+    Returns a binary string representation an HTTP response that can be sent on a socket.
+    """
+
+    header = b"HTTP/1.1 200 OK\r\nContent-Type: text/css\r\n\n\n"
+    body = responsebody.encode("utf-8")
+
+    return header + body

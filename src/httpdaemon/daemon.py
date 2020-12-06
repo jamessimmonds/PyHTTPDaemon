@@ -1,7 +1,7 @@
 import socket
 import re
 
-from response import htmlresponse, filenotfound, message
+from response import htmlresponse, filenotfound, message, cssresponse
 from request import HttpRequest
 
 def runserver(
@@ -43,4 +43,22 @@ def runserver(
         sock.close()
 
 if __name__ == "__main__":
-    runserver()
+
+    homepage = """
+    <html><head><link type="text/css" rel="stylesheet" href="style.css"></head>
+    <body><h1>Home</h1><p>The site is operational.</p></body><html>
+    """
+
+    cssstyle = """
+    body {
+        font-family: Arial;
+    }
+    """
+
+    routes = {
+        '/': lambda req : htmlresponse(homepage),
+        '/style.css': lambda req : cssresponse(cssstyle),
+        '/query': lambda req : message('Query', f'Your query was {req.params}')
+    }
+
+    runserver(routes=routes)
