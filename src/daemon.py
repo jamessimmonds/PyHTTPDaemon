@@ -1,13 +1,7 @@
 import socket
 import re
 
-def html(sock, title, message):
-    header = b"HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\n\n"
-    body = f"<h1>{title}</h1><p>{message}</p>".encode("utf-8")
-    
-    htmlresponse = header + body
-    
-    sock.sendall(htmlresponse)
+from htmlresponse import HtmlResponse
 
 def runserver(port=8000, host='127.0.0.1'):
 
@@ -31,7 +25,8 @@ def runserver(port=8000, host='127.0.0.1'):
             print(path)
             
             # Send an HTTP response on the socket
-            html(conn, "Page title", f"The following path has been accessed: {path}")
+            htmlbody = f"<h1>Page accessed</h1><p>The path is {path}"
+            conn.sendall(HtmlResponse(htmlbody).response)
             
             conn.close()
         
