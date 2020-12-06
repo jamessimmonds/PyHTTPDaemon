@@ -4,7 +4,14 @@ import re
 from response import htmlresponse, filenotfound, message
 from request import HttpRequest
 
-def runserver(port=8000, host='127.0.0.1'):
+def runserver(
+    port=8000,
+    routes={
+        '/': message("Index", "You have accessed the index."),
+        '/about': message("About", "This site is undergoing construction.")
+    },
+    host='127.0.0.1'
+    ):
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         
@@ -27,8 +34,8 @@ def runserver(port=8000, host='127.0.0.1'):
             path = request.path
             
             # Send an HTTP response on the socket
-            if path == "/":
-                conn.sendall(message("Index", "You have accessed the index."))
+            if path in routes.keys():
+                conn.sendall(routes[path])
             else:
                 errormessage = f"You have accessed the following path: {path}"
                 conn.sendall(filenotfound(errormessage))
