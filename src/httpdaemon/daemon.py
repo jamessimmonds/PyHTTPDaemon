@@ -7,8 +7,7 @@ from request import HttpRequest
 def runserver(
     port=8000,
     routes={
-        '/': message("Index", "You have accessed the index."),
-        '/about': message("About", "This site is undergoing construction.")
+        '/': lambda req : message("Daemon", "The HTTP daemon is running."),
     },
     host='127.0.0.1'
     ):
@@ -28,14 +27,13 @@ def runserver(
             request = HttpRequest(conn.recv(1024))
 
             print(request.requestline)
-            print(request.params)
 
             # Show the path accessed by the request
             path = request.path
             
             # Send an HTTP response on the socket
             if path in routes.keys():
-                conn.sendall(routes[path])
+                conn.sendall(routes[path](request))
             else:
                 errormessage = f"You have accessed the following path: {path}"
                 conn.sendall(filenotfound(errormessage))
