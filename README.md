@@ -1,7 +1,7 @@
-# PyHttpDaemon
+# PyHTTPDaemon
 Server and handler for HTTP requests
 
-## Basic usage
+## Basic usage
 
 ```python
 from daemon import Daemon
